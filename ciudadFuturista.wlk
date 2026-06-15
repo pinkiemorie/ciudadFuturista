@@ -5,11 +5,13 @@ class Dron {
 
     method autonomia() = autonomia
     method nivelProcesamiento() = nivelProcesamiento
+    method mision () = mision
     method eficienciaOperativa() = autonomia * 10 + mision.extra()
-    method esDronAvanzado()
+    method esAvanzado() = self.esAvanzadoSegunTipo() or mision.esDronAvanzadoEnMision(self)
+    method esAvanzadoSegunTipo()
 
-    method disminuirAutonomia(cantidad) {
-        autonomia -= cantidad
+    method disminuirAutonomia() {
+        autonomia = autonomia * 0.95
     }
 
     method reprogramar(unaMision) {
@@ -19,9 +21,9 @@ class Dron {
 
 class DronComercial inherits Dron {
     override method eficienciaOperativa() = super() + (super() * 0.1)
-    override method esDronAvanzado() = mision.esDronAvanzadoEnMision(self)
+    override method esAvanzadoSegunTipo() = false
 }
 
 class DronDeSeguridad inherits Dron {
-    override method esDronAvanzado() = mision.esDronAvanzadoEnMision(self) or nivelProcesamiento > 50
+    override method esAvanzadoSegunTipo() = nivelProcesamiento > 50
 }

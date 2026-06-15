@@ -3,16 +3,16 @@ import zonas.*
 import  misiones.*
 
 describe "Tests de ciudad futurista" {
-    const connor = new DronComercial(autonomia = 10, nivelProcesamiento = 15, mision = new Exploracion())
-    const kara = new DronDeSeguridad(autonomia = 20, nivelProcesamiento = 7, mision = new Vigilancia(sensor = sensor1))
-    const markus = new DronComercial(autonomia = 30, nivelProcesamiento = 18, mision = new Transporte())
-    const amanda = new DronDeSeguridad(autonomia = 40, nivelProcesamiento = 9, mision = new Vigilancia(sensor = sensor2))
+    const connor = new DronComercial(autonomia = 10, nivelProcesamiento = 15, mision = exploracion)
+    const kara = new DronDeSeguridad(autonomia = 20, nivelProcesamiento = 7, mision = new Vigilancia(sensores = [sensor1]))
+    const markus = new DronComercial(autonomia = 30, nivelProcesamiento = 18, mision = transporte)
+    const amanda = new DronDeSeguridad(autonomia = 40, nivelProcesamiento = 9, mision = new Vigilancia(sensores = [sensor2]))
 
     const sensor1 = new Sensor(tieneMejorasTecnologicas = true, capacidad = 30, durabilidad = 10)
     const sensor2 = new Sensor(tieneMejorasTecnologicas = false, capacidad = 10, durabilidad = 7)
 
     const zonaCiudad = new Zona(tamañoTotal = 3000)
-    const zonaPueblo = new Zona(tamañoTotal = 1000)
+    const zonaPueblo = new Zona(tamañoTotal = 500)
 
     const detroit = new Escuadron()
 
@@ -49,7 +49,7 @@ describe "Tests de ciudad futurista" {
         assert.equals(1, zonaPueblo.cantOperaciones())
     }
 
-    test "El escuadron opera en la zona pueblo, la autonomia de markus pasa a ser" {
+    test "El escuadron opera en la zona pueblo, la autonomia de markus pasa a ser 28.5" {
         detroit.operarEnZona(zonaPueblo)
 
         assert.equals(28.5, markus.autonomia())

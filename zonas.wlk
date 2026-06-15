@@ -1,19 +1,23 @@
 class Escuadron {
     const drones = []
 
-    method hayDronesAvanzados() = drones.any({d => d.esDronAvanzado()})
+    method hayDronesAvanzados() = drones.any({d => d.esAvanzado()})
     method capacidadOperativa() = drones.sum({d => d.eficienciaOperativa()})
 
     method puedeOperarEnZona(unaZona) {
         return self.hayDronesAvanzados() and 
-        self.capacidadOperativa() > (unaZona.tamañoTotal() / 2)
+        self.capacidadOperativa() > (unaZona.tamañoTotal() * 1.5)
     }
 
     method operarEnZona(unaZona) {
         if (self.puedeOperarEnZona(unaZona)) {
             unaZona.registrarOperacion()
-            drones.forEach({d => d.disminuirAutonomia(d.autonomia() * 0.05)})
+            self.reducirAutonomiaDeEscuadron()
         }
+    }
+
+    method reducirAutonomiaDeEscuadron() {
+        drones.forEach({d => d.disminuirAutonomia()})
     }
 
     method agregarDron(unDron) {
