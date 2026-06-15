@@ -1,8 +1,8 @@
 class Escuadron {
     const drones = []
 
-    method hayDronesAvanzados()
-    method capacidadOperativa()
+    method hayDronesAvanzados() = drones.any({d => d.esDronAvanzado()})
+    method capacidadOperativa() = drones.sum({d => d.eficienciaOperativa()})
 
     method puedeOperarEnZona(unaZona) {
         return self.hayDronesAvanzados() and 
@@ -36,7 +36,8 @@ class Zona {
     var cantOperaciones = 0
 
     method tamañoTotal() = tamañoTotal
-    
+    method cantOperaciones() = cantOperaciones
+
     method registrarOperacion() {
         cantOperaciones += 1
     }

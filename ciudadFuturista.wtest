@@ -1,0 +1,57 @@
+import ciudadFuturista.*
+import zonas.*
+import  misiones.*
+
+describe "Tests de ciudad futurista" {
+    const connor = new DronComercial(autonomia = 10, nivelProcesamiento = 15, mision = new Exploracion())
+    const kara = new DronDeSeguridad(autonomia = 20, nivelProcesamiento = 7, mision = new Vigilancia(sensor = sensor1))
+    const markus = new DronComercial(autonomia = 30, nivelProcesamiento = 18, mision = new Transporte())
+    const amanda = new DronDeSeguridad(autonomia = 40, nivelProcesamiento = 9, mision = new Vigilancia(sensor = sensor2))
+
+    const sensor1 = new Sensor(tieneMejorasTecnologicas = true, capacidad = 30, durabilidad = 10)
+    const sensor2 = new Sensor(tieneMejorasTecnologicas = false, capacidad = 10, durabilidad = 7)
+
+    const zonaCiudad = new Zona(tamañoTotal = 3000)
+    const zonaPueblo = new Zona(tamañoTotal = 1000)
+
+    const detroit = new Escuadron()
+
+    method initialize() {
+        detroit.agregarDron(connor)
+        detroit.agregarDron(kara)
+        detroit.agregarDron(markus)
+        detroit.agregarDron(amanda)
+    }
+
+    test "El dron Connor tiene una eficiencia operativa de 110" {
+        assert.equals(110, connor.eficienciaOperativa())
+    }
+
+    test "El dron Amanda tiene una eficiencia operativa de 410" {
+        assert.equals(410, amanda.eficienciaOperativa())
+    }
+
+    test "En el escuadron, hay drones avanzados" {
+        assert.that(detroit.hayDronesAvanzados())
+    }
+
+    test "La capacidad operativa del escuadron es de 1220" {
+        assert.equals(1220, detroit.capacidadOperativa())
+    }
+
+    test "El escuadron no puede operar en zona ciudad" {
+        assert.notThat(detroit.puedeOperarEnZona(zonaCiudad))
+    }
+
+    test "El escuadron opera en la zona pueblo, la cantidad de operaciones de la zona pasa a ser 1" {
+        detroit.operarEnZona(zonaPueblo)
+
+        assert.equals(1, zonaPueblo.cantOperaciones())
+    }
+
+    test "El escuadron opera en la zona pueblo, la autonomia de markus pasa a ser" {
+        detroit.operarEnZona(zonaPueblo)
+
+        assert.equals(28.5, markus.autonomia())
+    }
+}
